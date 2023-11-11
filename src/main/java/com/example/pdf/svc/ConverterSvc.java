@@ -1,19 +1,24 @@
 package com.example.pdf.svc;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 
 public class ConverterSvc {
 
-    public static byte[] convertDocToByteArray() throws FileNotFoundException {
+    public static byte[] convertDocToByteArray() throws IOException {
+
         byte[] byteArray = null;
 
-        try {
-            FileInputStream inputStream = new FileInputStream("e:\\Coding\\pdf_experiment\\file-sample_150kB.pdf");
+        byte[] bytes = null;
+        int pdfBytes;
 
-            String inputStreamToString = inputStream.toString();
-            byteArray = inputStreamToString.getBytes();
+        try {
+            String sourcePath = "e:\\Coding\\pdf_experiment\\pdf_backend\\src\\main\\resources\\file-sample_150kB.pdf";
+            File file = new File(sourcePath);
+            InputStream inputStream = new FileInputStream(file);
+
+            bytes = new byte[(int) file.length()];
+
+            inputStream.read(bytes);
 
             inputStream.close();
         } catch (FileNotFoundException e) {
@@ -22,7 +27,6 @@ public class ConverterSvc {
             System.out.println("IO exception" + e);
         }
 
-        System.out.println(byteArray);
-        return byteArray;
+        return bytes;
     }
 }
